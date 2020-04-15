@@ -1,4 +1,153 @@
 {% extends "master.html" %}
 {% block content %}
-    <h1> YEET </h1>
+
+<div class="container">
+    
+    <div class="row">
+        <div class="col s12 m4  l2 teal">            
+        
+        </div>
+
+        <div class="col s12 m8 l10 ">
+            <ul class="collapsible popout">
+                {% if items|length %}
+                    {% for item in items %}    
+                        <li>
+
+                            <div class="collapsible-header hoverable">
+                                <span class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">folder</i>{{item.get_data_set_name()}}</span>
+                            </div>
+
+                            <div class="collapsible-body">
+
+                                <div class="row">
+                                    <div class="col s12 m6">
+                                        <div class="card"  style="height: 488px;">
+                                            <div class="card-content">
+                                                <span class="card-title center-align">Dataset Information</span>
+                                                <div class="row">
+                                                    <div class="col s12 m6">
+                                                        <ul class="collection center-left">
+                                                            <li class="collection-item"><b>Signal Type: </b>{{item.get_signal_type()}}</li>
+                                                            <li class="collection-item"><b>Species: </b>{{item.get_species()}}</li>
+                                                            <li class="collection-item"><b>Gender: </b>{{item.get_gender()}}</li>
+                                                            <li class="collection-item"><b>Age: </b>{{item.get_age()}}</li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col s12 m6">
+                                                        <ul class="collection center-left">
+                                                            <li class="collection-item"><b>Target: </b>{{item.get_target()}}</li>
+                                                            <li class="collection-item"><b>Action: </b>{{item.get_action()}}</li>
+                                                            <li class="collection-item"><b>Channel Count: </b>{{item.get_channel_count()}}</li>
+                                                            <li class="collection-item"><b>Device: </b>{{item.get_device()}}</li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col s12 m6">
+                                        <div class="card">
+                                            <div class="card-content">
+                                                <div class="slider">
+                                                    <ul class="slides">
+                                                      <li>
+                                                        <img class="responsive-img" src="https://lorempixel.com/580/250/nature/1"> <!-- random image -->
+                                                      </li>
+                                                      <li>
+                                                        <img class="responsive-img" src="https://lorempixel.com/580/250/nature/2"> <!-- random image -->
+                                                      </li>
+                                                      <li>
+                                                        <img class="responsive-img" src="https://lorempixel.com/580/250/nature/3"> <!-- random image -->
+                                                      </li>
+                                                      <li>
+                                                        <img class="responsive-img" src="https://lorempixel.com/580/250/nature/4"> <!-- random image -->
+                                                      </li>
+                                                    </ul>
+                                                  </div>
+                                            </div> 
+                                        </div> 
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col s12 m6">
+                                        <ul class="collapsible">
+                                            <li>
+                                                <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
+                                                <div class="collapsible-body">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Key</th>
+                                                                <th>Value</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for key in item.get_tags().keys() %}
+                                                                <tr>
+                                                                    <td>{{key}}</td>
+                                                                    <td>{{item.get_tags()[key]}}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="col s12 m6">
+                                        <ul class="collapsible">
+                                            <li>
+                                                <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">description</i>Files</div>
+                                                <div class="collapsible-body">
+                                                    <table>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Filename</th>
+                                                                <th>Change</th>
+                                                                <th>Download</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for file in item.get_files() %}
+                                                                <tr>
+                                                                    <td>{{file['Filename']}}</td>
+                                                                    <td>{{file['Change']}}</td>
+                                                                    <td><a value="{{Filepath}}"class="pink darken-1 waves-effect waves-light btn">download</a></td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                                
+                            </div>
+
+                        </li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+        </div>
+
+    </div>
+
+</div>
+<script>
+      $(document).ready(function(){
+        $('.collapsible').collapsible();
+        });
+        $(document).ready(function(){
+    $('.slider').slider();
+  });
+</script>
+
 {% endblock %}

@@ -1,0 +1,26 @@
+<div class="col s12">
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
+                <div class="collapsible-body">
+                    <table class="response-table striped">
+                        <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for key in item.get_tags().keys() %}
+                                <tr>
+                                    <td>{{key}}</td>
+                                    <td>{{item.get_tags()[key]}}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </li>
+    </ul>
+</div>

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, redirect, url_for
 from routes.auth import auth
+from routes.browse import browse
 
 app = Flask(__name__)
 app.debug = True
@@ -7,7 +8,7 @@ app.debug = True
 app.secret_key = b'_Q\xbd\x8d\x93E_\x82\xc5\x06\xa3\x17\xdd\n(\x1c'
 
 app.register_blueprint(auth)
-
+app.register_blueprint(browse)
 
 @app.route('/')
 def index():
@@ -16,7 +17,7 @@ def index():
 
 @app.route('/home')
 def home():
-    return redirect(url_for(''))
+    return redirect(url_for('')) 
 
 
 if __name__ == '__main__':

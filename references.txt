@@ -1,2 +1,4 @@
 https://itnext.io/create-react-app-with-vs-code-1913321b48d <- Initial react project setup
 https://stackoverflow.com/questions/36975619/how-to-call-a-rest-web-service-api-from-javascript <- making api calls in javascript
+
+Photo by Hal Gatewood on Unsplash

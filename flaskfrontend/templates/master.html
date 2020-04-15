@@ -5,42 +5,44 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>NTU Biological Signals Platform</title>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link href="{{ url_for('static', filename='style.css')}}" type="text/css" rel="stylesheet">
+        
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-
+        
         <!--Let browser know website is optimized for mobile-->
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </head>
     <body>
+        {% if '/auth' != request.url_rule.rule %}
         <div class="navbar-fixed">
             <nav>
-                <div class="nav-wrapper">
-                    <a href="#" class="brand-logo">Logo</a>
+                <div class="nav-wrapper grey lighten-3">
+                    <a href="#" class="brand-logo grey-text text-darken-2">Logo</a>
                     <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                     <ul id="nav-mobile" class="right hide-on-med-and-down">
-                        <li><a href="#"><i class="material-icons left">cloud_upload</i>Upload Data</a></li>
-                        <li><a href="#"><i class="material-icons left">search</i>Browse Repository</a></li>
-                        <li><a href="#"><i class="material-icons left">account_circle</i>My Account</a></li>
-                        <li><a href="#"><i class="material-icons left">work</i>Projects</a></li>
-                        <li><a href="#"><i class="material-icons left">power_settings_new</i>Logout</a></li>
+                        <li><a href="#" class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">cloud_upload</i>Upload Data</a></li>
+                        <li><a href="#" class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">search</i>Browse Repository</a></li>
+                        <li><a href="#" class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">account_circle</i>My Account</a></li>
+                        <li><a href="#" class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">work</i>Projects</a></li>
+                        <li><a href="/auth/logout" class="grey-text text-darken-2"><i class="material-icons left pink-text text-darken-1">power_settings_new</i>Logout</a></li>
                     </ul>
                 </div>
             </nav>
         </div>
+        {% endif %}
         <ul class="sidenav" id="mobile-demo">
             <li><a href="#"><i class="material-icons left">cloud_upload</i>Upload Data</a></li>
             <li><a href="#"><i class="material-icons left">search</i>Browse Repository</a></li>
             <li><a href="#"><i class="material-icons left">account_circle</i>My Account</a></li>
-            <li><a href="#"><i class=   "material-icons left">work</i>Projects</a></li>
-            <li><a href="#"><i class="material-icons left">power_settings_new</i>Logout</a></li>
+            <li><a href="#"><i class="material-icons left">work</i>Projects</a></li>
+            <li><a href="/auth/logout"><i class="material-icons left">power_settings_new</i>Logout</a></li>
         </ul>
         {% block content %}
         {% endblock %}
     <!-- Compiled and minified JavaScript -->
-    <script type="text/javascript" src="{{ url_for('static', filename='js/materialize.min.js')}}"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js"></script>
     <script>
           $(document).ready(function(){
             $('.sidenav').sidenav();

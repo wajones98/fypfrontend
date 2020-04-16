@@ -103,7 +103,7 @@ class SearchItem:
 
     @staticmethod
     def get_search_items(body):
-        r = requests.get(
+        r = requests.post(
             f'{BASE_URL}/search',
             json=body,
             headers={'SessionId': session['session_id']}
@@ -127,6 +127,12 @@ class SearchItem:
                 search_item.set_device(item['Device'])
                 search_item.set_data_set_id(item['DatasetId'])
                 search_item.set_tags(item['Tags'])
+                file_info = {
+                    'Filename': item['Filename'],
+                    'Filepath': item['Filepath'],
+                    'Change': item['Change']
+                }
+                search_item.get_files().append(file_info)
                 search_items.append(search_item)
             else:
                 for data_set in search_items:

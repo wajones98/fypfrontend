@@ -1,17 +1,17 @@
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash
 import requests
 
-auth = Blueprint('auth', __name__)
+Auth = Blueprint('auth', __name__)
 
 BASE_URL = 'http://192.168.0.22:8080'
 
-@auth.route('/auth')
-def Auth():
+@Auth.route('/auth')
+def auth():
     if 'session_id' in session:
-        return redirect(url_for('browse.Browse'))
+        return redirect(url_for('browse.browse'))
     return render_template(('auth.html'))
 
-@auth.route('/auth/login', methods=['POST'])
+@Auth.route('/auth/login', methods=['POST'])
 def login():
     if request.method == 'POST':
         r = requests.post(
@@ -28,19 +28,19 @@ def login():
             return redirect('/auth')
         print(response['Message'])
         session['session_id'] = response['Message']
-        return redirect(url_for('browse.Browse'))
+        return redirect(url_for('browse.browse'))
 
-@auth.route('/auth/logout')
+@Auth.route('/auth/logout')
 def logout():
     session.clear()
-    return redirect(url_for('auth.Auth'))
+    return redirect(url_for('auth.auth'))
 
-@auth.route('/auth/register', methods=['POST'])
+@Auth.route('/auth/register', methods=['POST'])
 def register():
     if request.method == 'POST':
         if request.form['registerPassword'] != request.form['confirmPassword']:
             flash('Passwords do not match')
-            return redirect(url_for('auth.Auth'))
+            return redirect(url_for('auth.auth'))
         
         r = requests.post(
             f'{BASE_URL}/auth/register',
@@ -56,4 +56,4 @@ def register():
 
         if response['Status'] != 200:
             flash(response['Message'])
-        return redirect(url_for('auth.Auth'))
+        return redirect(url_for('auth.auth'))

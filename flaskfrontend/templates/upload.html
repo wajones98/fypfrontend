@@ -1,0 +1,189 @@
+{% extends "master.html" %}
+
+{% block content %}
+<div class="row">
+    <div class="col s12 m10 l8 offset-m1 offset-l2">
+        
+        <div class="card">
+            <div class="card-content grey lighten-4">
+                
+                <div class="row">
+
+                    <div class="col s12 m6">
+                        <div class="card-title center-align">Dataset Information</div>
+                        <p>It is important that this datasets information is accurate in order to maintain the quality of the repository.</p>
+                        <form class="col s12" enctype="multipart/form-data" id="uploadForm" method="post" action="/upload/confirm">
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="signalType" name="signalType" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="signalType">Signal Type</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="species" name="species" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="species">Species</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="gender" name="gender" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="gender">Gender</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="age" name="age" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="age">Age</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="target" name="target" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="target">Target</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="action" name="action" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="action">Action</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="dataset" name="dataset" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="dataset">Dataset name</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="channelCount" name="channelCount" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="channelCount">Number of channels</label>
+                            </div>
+                            <div class="input-field col s12 m12 l6 form-group">
+                                <input id="device" name="device" type="text" class="validate form-control" required="" aria-required="true">
+                                <label for="device">Device</label>
+                            </div>
+                            <div class="col s12 m12 l6 form-group">
+                                <div class="file-field input-field">
+                                    <div class="btn pink darken-1">
+                                    <span>File</span>
+                                    <input name="files" type="file" multiple>
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                    <input class="file-path validate" type="text" placeholder="Upload one or more files" required="" aria-required="true">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <div class="switch">
+                                    <label>
+                                        Off
+                                    <input id= 'customTagsCheck' type="checkbox" onclick="customTagsChecked()">
+                                    <span class="lever"></span>
+                                        On
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col s12 m12 l6">
+                                <button class="btn waves-effect waves-light right pink darken-1" type="submit" name="action">Upload</button>
+                            </div>
+
+                            <div id="customTagsRow" class="row hide">
+                                <div id="customTagsCol" class="col s12">
+                                    <div class="card-title center-align">Custom Tags</div>
+                                    <div class="input-field col s12 m6 form-group">
+                                        <input id="tagKey" name="tagKey" type="text" class="form-control ">
+                                        <label for="tagKey">Key</label>
+                                    </div>
+                                    <div class="input-field col s12 m6 form-group">
+                                        <input id="tagValue" name="tagValue" type="text" class="form-control">
+                                        <label for="tagValue">Value</label>
+                                    </div>
+                                    <div class="col s12">
+                                        <a class="waves-effect waves-light right btn pink darken-1" onclick="addTag()">Add</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="addedTagsRow" class="row hide">
+                                <div id="addedTagsCol" class="col s12">
+                                    <input name="tagData" id="tagData" value="{}" class="hide form-control">
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    
+                    <div class="col s12 m6">
+                        
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function customTagsChecked() {
+        var checkBox = document.getElementById("customTagsCheck");
+        var customElement = document.getElementById("customTagsRow");
+        var addElement = document.getElementById("addedTagsRow");
+        if(!checkBox.checked){
+            customElement.classList.add("hide");
+            addElement.classList.add("hide");
+        } else {
+            customElement.classList.remove("hide");
+            addElement.classList.remove("hide");
+        }
+    }
+
+    var tags = {};
+
+    function addTag() {
+        var key = $('#tagKey').val();
+        var value = $('#tagValue').val();
+        if(!(key in tags))
+        {
+            tags[key] = value;
+
+            var addedTagsCol = document.getElementById("addedTagsCol");
+            //if(!(addedTagsCol.classList.contains("hide"))){
+                //addedTagsCol.classList.remove("hide");
+            //}
+            
+            //Key input field
+            var newTag = document.createElement("div");
+            newTag.classList.add("col", "s12", "m6");
+            newTag.id = key;
+
+
+            var newTagKey = document.createElement("div");
+            newTagKey.classList.add("input-field", "col", "s12");
+
+            var keyInput = document.createElement("input");
+            keyInput.id = key + "Key";
+            keyInput.setAttribute("type", "text");
+            keyInput.setAttribute("value",key);
+            keyInput.disabled = true;
+       
+            newTagKey.appendChild(keyInput);
+
+            newTag.appendChild(newTagKey);
+            addedTagsCol.appendChild(newTag);
+            
+            //Value input field
+            var newTag = document.createElement("div");
+            newTag.classList.add("col", "s12", "m6");
+            newTag.id = value;
+
+            var newTagValue = document.createElement("div");
+            newTagValue.classList.add("input-field", "col", "s12");
+
+            var valueInput = document.createElement("input");
+            valueInput.id = value + "Value";
+            valueInput.setAttribute("type", "text");
+            valueInput.setAttribute("value",value);
+            valueInput.disabled = true;
+            
+            newTagValue.appendChild(valueInput);
+
+
+            newTag.appendChild(newTagValue);      
+            addedTagsCol.appendChild(newTag);
+            //M.autoInit();
+            var addedTags = document.getElementById("tagData");
+            addedTags.setAttribute("value", JSON.stringify(tags));
+        }
+    }
+</script>
+
+{% endblock %}

@@ -1,5 +1,173 @@
 {% extends "master.html" %}
 
 {% block content %}
+    <div class="container">
+        
+        <div class="row">  
+            <div class="col s12">
+           
+                <div class="row">
+                    
+                    <div class="col s12">
+                        
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title center-align"><h4>My Projects</h4></span>
+                                
+                                <div class="row">
+                                    <div class="col s12">
+
+                                        <ul class="collapsible popout">
+                                            {% for project in projects %}
+                                            <li>        
+                                                <div class="collapsible-header hoverable">
+                                                    <i class="material-icons left pink-text text-darken-1">work</i>
+                                                    {{project.get_name()}}
+                                                    {% if project.get_public() == true %}
+                                                        <span class="new badge pink darken-1" data-badge-caption="Public"></span>
+                                                    {% endif %}
+                                                </div>
+
+                                                <div class="collapsible-body">
+                                                    
+                                                    <div class="row">
+                                                        
+                                                        <div class="col s12 m6 l3">
+                                                            
+                                                            <div class="card">
+                                                                <div class="card-content">
+                                                                    <div class="row">
+                                                                        <span class="card-title center-align"><h5>Options</h5></span>
+                                                                    </div>
+                                                                    
+                                                                    <div class="row">
+                                                                        
+                                                                        <form method="POST", action="">  
+                                                                            <div class="row center">
+                                                                                <div class="col s12">
+                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Invite</button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row center">
+                                                                                <div class="col s12">
+                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Make Public</button>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="row center">
+                                                                                <div class="col s12">
+                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Leave</button>
+                                                                                </div>
+                                                                            </div>    
+                                                                        </form>  
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col s12 m6 l9">
+                                                            
+                                                            <div class="card">
+                                                                <div class="card-content">
+
+                                                                    <div class="row">
+                                                                        <span class="card-title center-align"><h5>About</h5></span>
+                                                                    </div>
+
+                                                                    <div class="row">
+
+                                                                        <div class="col s12 m12 l6">
+                                                                            <blockquote class="flow-text">
+                                                                                Created By: {{project.get_creator()}}
+                                                                            </blockquote>
+                                                                        </div>
+
+                                                                        <div class="col s12 m12 l6">
+                                                                            <blockquote class="flow-text">
+                                                                                {{project.get_desc()}}
+                                                                            </blockquote>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </li>
+                                            <br>
+                                            {% endfor %}
+                                        </ul>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="fixed-action-btn">
+                    <a class="btn-floating pulse btn-large modal-trigger pink darken-1" href="#modal1"><i class="material-icons">edit</i></a>
+                </div>
+                  <!-- Modal Structure -->
+                    <div id="modal1" class="modal">
+                        <div class="modal-content">
+                            <h5>Create Project</h5>
+                
+                            <div class="row">
+                                
+                                <form class="col s12" method="post" action="/projects/create">
+                                    
+                                    <div class="input-field col s12 form-group">
+                                        <input id="projectName" name="projectName" type="text" class="validate form-control" required="" aria-required="true">
+                                        <label for="projectName">Name</label>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <textarea id="projectDesc" name="projectDesc" class="materialize-textarea"></textarea>
+                                        <label for="projectDesc">Description</label>
+                                    </div>
+                                    <div class="switch">
+                                        <label>
+                                            Private
+                                        <input id= 'public' type="checkbox" name="public">
+                                        <span class="lever"></span>
+                                            Public
+                                        </label>
+                                    </div>
+                                    <div class="col s12">
+                                        <div class="col s12 m12 l6 offset-l6">
+                                            <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" type="submit" name="action">Create</button>
+                                            <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        $(document).ready(function(){
+            $('.collapsible').collapsible();
+            $('.fixed-action-btn').floatingActionButton();
+            $('.modal').modal();
+        });
+    </script>
 
 {% endblock %}

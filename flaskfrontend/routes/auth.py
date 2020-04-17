@@ -26,7 +26,6 @@ def login():
         if status == 500:
             flash(response['Message'])
             return redirect('/auth')
-        print(response['Message'])
         session['session_id'] = response['Message']
         return redirect(url_for('browse.browse'))
 

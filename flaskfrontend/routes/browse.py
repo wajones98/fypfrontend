@@ -26,3 +26,25 @@ def search():
         json_query = json.loads(request.form['jsonQuery'])
         search_results = SearchItem.get_search_items(json_query)
         return render_template('browse.html', items=search_results)
+
+
+@Browse.route('/download/file', methods=['POST'])
+def download_file():
+    if request.method == 'POST':
+        if 'session_id' not in session:
+            return redirect(url_for('auth.auth'))
+        file_info = {'filePath': request.form['action'], 
+                    'fileName': request.form['fileName'],
+                    'dataset': request.form['dataset']}
+        return SearchItem.download_file(file_info)
+    return redirect(url_for('browse.browse'))
+
+@Browse.route('/download/dataset', methods=['POST'])
+def download_dataset():
+    if request.method == 'POST':
+        if 'session_id' not in session:
+            return redirect(url_for('auth.auth'))
+        dataset_info = {'dataset': request.form['datasetName'],
+                        'fileInfo': session[request.form['datasetId']]}   
+        return SearchItem.download_dataset(dataset_info)
+    return redirect(url_for('browse.browse'))

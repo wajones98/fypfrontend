@@ -3,7 +3,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col s12 m4" style="position: sticky; position:-webkit-sticky; top:9%; z-index: 5;">
+        <div class="col s12 m12 l4" style="position: sticky; position:-webkit-sticky; top:9%; z-index: 5;">
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">Filter</span>
@@ -21,7 +21,7 @@
                 </div>
             </div>    
         </div>
-        <div class="col s12 m8">
+        <div class="col s12 m12 l8">
             <ul class="collapsible popout">
                 {% if items|length %}
                     {% for item in items %}    
@@ -56,7 +56,13 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-                                                <a class="pink darken-1 waves-effect waves-light btn right"><i class="material-icons left">cloud</i>Download Dataset</a>
+        
+                                                <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
+                                                    <input name="datasetName" value="{{item.get_data_set_name()}}" id="datasetName" class="hide form-control">
+                                                    <input name="datasetId" value="{{item.get_data_set_id()}}" id="datasetId" class="hide form-control">
+                                                    <button class="pink darken-1 waves-effect waves-light btn right" type="submit" name="action">Download</button>
+                                                </form>
+
                                             </div>
                                         </div>
                                     </div>
@@ -117,23 +123,27 @@
                                     <div class="col s12 m6">
                                         <ul class="collapsible">
                                             <li>
-                                                <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">description</i>Files</div>
+                                                <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">description</i>Source Files</div>
                                                 <div class="collapsible-body">
                                                     <table>
                                                         <thead>
                                                             <tr>
                                                                 <th>Filename</th>
-                                                                <th>Change</th>
                                                                 <th>Download</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {% for file in item.get_files() %}
+                                                                {% if file['Change'] == 'source' %}
                                                                 <tr>
-                                                                    <td>{{file['Filename']}}</td>
-                                                                    <td>{{file['Change']}}</td>
-                                                                    <td><a value="{{Filepath}}"class="pink darken-1 waves-effect waves-light btn">download</a></td>
+                                                                    <form id="downloadFileForm" method="POST" action="/download/file">
+                                                                         <td>{{file['Filename']}}</td>
+                                                                        <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
+                                                                        <input name="dataset" value="{{item.get_data_set_name()}}" id="dataset" class="hide form-control">
+                                                                        <td><button value="{{file['Filepath']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
+                                                                    </form>
                                                                 </tr>
+                                                                {% endif %}
                                                             {% endfor %}
                                                         </tbody>
                                                     </table>
@@ -147,6 +157,7 @@
                             </div>
 
                         </li>
+                        <br>
                     {% endfor %}
                 {% endif %}
             </ul>

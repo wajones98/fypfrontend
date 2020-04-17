@@ -1,13 +1,19 @@
-from flask import session
+from flask import session, send_file, make_response
 import requests
+import shutil
+import os
+import boto3
+import json
 
 BASE_URL = 'http://192.168.0.22:8080'
+LANDING = '..\\flaskfrontend\\temp'
 
 class SearchItem:
     
     def __init__(self):
         self.item_id = None
         self.search_result = {'Files': []}
+        SearchItem.clear_temp_folder(session['session_id'])
         return
 
     def set_data_set_name(self, data_set_name):
@@ -143,5 +149,45 @@ class SearchItem:
                             'Change': item['Change']
                         }
                         data_set.get_files().append(file_info)
+                        session[item['DatasetId']] = data_set.get_files()
             datasets.add(item['DatasetId'])
         return search_items
+
+    @staticmethod
+    def download_file(file_info):
+        bucket = 'fyp-data-repo'
+        s3_client = boto3.client('s3')
+        local_directory = os.path.join(LANDING, session['session_id'])
+        if not os.path.exists(local_directory):
+            os.mkdir(local_directory)
+        full_local_path = os.path.join(local_directory, file_info['fileName'])
+        s3_client.download_file(bucket, file_info['filePath'], full_local_path)
+        return send_file(full_local_path, as_attachment=True)
+    
+    @staticmethod
+    def download_dataset(dataset_info):
+        bucket = 'fyp-data-repo'
+        s3_client = boto3.client('s3')
+        
+        local_directory = os.path.join(LANDING, session['session_id'])
+        if not os.path.exists(local_directory):
+            os.mkdir(local_directory)
+        
+        dataset_directory = os.path.join(local_directory, dataset_info['dataset'])
+        if not os.path.exists(dataset_directory):
+            os.mkdir(dataset_directory)
+        
+        file_info = dataset_info['fileInfo']
+        for file in file_info:
+            full_local_path = os.path.join(dataset_directory, file['Filename'])
+            s3_client.download_file(bucket, file['Filepath'], full_local_path)
+
+        zipped_file = shutil.make_archive(dataset_directory, 'zip', dataset_directory)
+        
+        return send_file(zipped_file, as_attachment=True)
+    
+    @staticmethod
+    def clear_temp_folder(session_id):
+        directory = os.path.join(LANDING, session['session_id'])
+        if os.path.exists(directory):
+            shutil.rmtree(directory)

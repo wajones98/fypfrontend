@@ -5,7 +5,37 @@ import requests
 BASE_URL = 'http://192.168.0.22:8080'
 
 class Project:
-   
+    
+    @staticmethod
+    def make_public(json_body):
+        r = requests.post(
+            f'{BASE_URL}/project/mode',
+            json=json_body,
+            headers={'SessionId': session['session_id']}
+        )
+        response = r.json()
+        return response
+
+    @staticmethod
+    def leave_project(json_body):
+        r = requests.post(
+            f'{BASE_URL}/project/leave',
+            json=json_body,
+            headers={'SessionId': session['session_id']}
+        )
+        response = r.json()
+        return response
+
+    @staticmethod
+    def invite_project(json_body):
+        r = requests.post(
+            f'{BASE_URL}/project/invite',
+            json=json_body,
+            headers={'SessionId': session['session_id']}
+        )
+        response = r.json()
+        return response
+
     @staticmethod
     def create_project(json_body):
         r = requests.post(
@@ -17,6 +47,24 @@ class Project:
         return response
 
     @staticmethod
+    def get_users_invitations():
+        r = requests.get(
+            f'{BASE_URL}/project/get/invitations',
+            headers={'SessionId': session['session_id']}
+        )
+        response = r.json()
+        print(response)
+        projects = []
+        for item in response['Projects']:
+            print(item)
+            project = Project()
+            project.set_project_id(item['ProjectId'])
+            project.set_name(item['Name'])
+            project.set_creator(item['Creator'])
+            projects.append(project)
+        return projects
+
+    @staticmethod
     def get_users_projects():
         r = requests.get(
             f'{BASE_URL}/project/get',
@@ -26,6 +74,7 @@ class Project:
         projects = []
         for item in response['Projects']:
             project = Project()
+            project.set_project_id(item['ProjectId'])
             project.set_name(item['Name'])
             project.set_desc(item['Desc'])
             project.set_creator(item['Creator'])
@@ -39,6 +88,13 @@ class Project:
     def __init__(self):
         self.project_id = None
         self.project = {}
+
+    def set_project_id(self, id):
+        self.project_id = id
+        return self
+
+    def get_project_id(self):
+        return self.project_id
 
     def set_name(self, name):
         self.project['name'] = name

@@ -42,25 +42,88 @@
                                                                     
                                                                     <div class="row">
                                                                         
-                                                                        <form method="POST", action="">  
+                                                                        
                                                                             <div class="row center">
                                                                                 <div class="col s12">
-                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Invite</button>
+                                                                                    <a class="btn modal-trigger waves-effect waves-light center-align pink darken-1 " href="#{{project.get_project_id()}}Invite">Invite</a>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div id="{{project.get_project_id()}}Invite" class="modal">
+                                                                                <div class="modal-content">
+                                                                                    <h5>Invite User</h5>
+                                                                                        
+                                                                                    <div class="row">
+                                                                                                        
+                                                                                        <form class="col s12" method="post" action="/projects/invite">
+                                                                                                            
+                                                                                            <div class="input-field col s12 form-group">
+                                                                                                <input id="projectEmail" name="projectEmail" type="Email" class="validate form-control" required="" aria-required="true">
+                                                                                                <label for="projectName">Email</label>
+                                                                                            </div>
+                                                                                            
+                                                                                            <div class="col s12">
+                                                                                                <div class="col s12 m12 l6 offset-l6">
+                                                                                                    <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" value ="{{project.get_project_id()}} "type="submit" name="action">Invite</button>
+                                                                                                    <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                        
+                                                                                    </div>
+                                                                        
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="row center">
                                                                                 <div class="col s12">
-                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Make Public</button>
+                                                                                             
+                                                                                        {% if project.get_public() == true %}
+                                                                                        <form class="col s12" method="post" action="/projects/mode">
+                                                                                            <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Private</button>
+                                                                                            <input name="val" value="0" id="file_name" class="hide form-control">
+                                                                                        </form>
+                                                                                        {% else %}
+                                                                                        <form class="col s12" method="post" action="/projects/mode">
+                                                                                            <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Public</button>
+                                                                                            <input name="val" value="1" id="file_name" class="hide form-control">
+                                                                                        </form>
+                                                                                        {% endif %}
+
                                                                                 </div>
                                                                             </div>
 
                                                                             <div class="row center">
                                                                                 <div class="col s12">
-                                                                                    <button class="btn waves-effect waves-light center-align pink darken-1" type="submit" name="action">Leave</button>
+                                                                                    <a class="btn modal-trigger waves-effect waves-light center-align pink darken-1 " href="#{{project.get_project_id()}}Leave">Leave</a>
                                                                                 </div>
                                                                             </div>    
-                                                                        </form>  
+                                                                            
+                                                                            <div id="{{project.get_project_id()}}Leave" class="modal">
+                                                                                <div class="modal-content">
+                                                                                    <h5>Are you sure you want to leave this project?</h5>
+                                                                                        
+                                                                                    <div class="row">
+                                                                                                        
+                                                                                        <form class="col s12" method="post" action="/projects/leave">
+
+                                                                                            <div class="row">
+                                                                                                <div class="col s12 m6">
+                                                                                                    <div class="row center">
+                                                                                                        <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" value ="{{project.get_project_id()}}" type="submit" name="action">Confirm</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col s12 m6">
+                                                                                                    <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                        </form>
+                                                                        
+                                                                                    </div>
+                                                                        
+                                                                                </div>
+                                                                            </div>
 
                                                                     </div>
                                                                 </div>
@@ -122,7 +185,11 @@
                                                                                             <div class="col s12">
                                                                                                 <ul class="collection">
                                                                                                     {% for member in project.get_members() %}
-                                                                                                        <li class="collection-item"><i class="material-icons left pink-text text-darken-1">account_circle</i>{{member['email']}}</li>
+                                                                                                        <li class="collection-item">{{member['email']}}
+                                                                                                            {% if member['pending'] %}
+                                                                                                                <span class="new badge pink darken-1" data-badge-caption="pending"></span>
+                                                                                                            {% endif %}
+                                                                                                        </li>
                                                                                                     {% endfor %}
                                                                                                 </ul>
                                                                                             </div>
@@ -159,7 +226,11 @@
 
                 </div>
                 <div class="fixed-action-btn">
-                    <a class="btn-floating pulse btn-large modal-trigger pink darken-1" href="#modal1"><i class="material-icons">edit</i></a>
+                    <a class="btn-floating btn-large modal-trigger pink darken-1"><i class="material-icons">menu</i></a>
+                    <ul>
+                        <li><a class="btn-floating modal-trigger tooltipped" data-position="left" data-tooltip="Create new project" href="#modal1"><i class="material-icons">create</i></a></li>
+                        <li><a class="btn-floating modal-trigger yellow darken-1 tooltipped" data-position="left" data-tooltip="Project Invitations" href="#modalInvited"><i class="material-icons">group_add</i></a></li>
+                      </ul>
                 </div>
                   <!-- Modal Structure -->
                     <div id="modal1" class="modal">
@@ -198,6 +269,29 @@
 
                         </div>
                     </div>
+                    
+                    <div id="modalInvited" class="modal">
+                        <div class="modal-content">
+                            <h5>Project Invitations</h5>
+                
+                            <div class="row">
+                                <div class="col s12">
+
+                                    <ul class="collection">
+                                        {% for invitation in invitations %}
+                                            <li class="collection-item"><div>{{invitation.get_name()}}<a href="#!" class="secondary-content"><i class="material-icons pink-text text-darken-1 hoverable">done</i></a></div></li>
+                                        {% endfor %}
+                                    </ul>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
+                          </div>
+                    </div>
+
 
                 </div>
             </div>
@@ -210,6 +304,8 @@
             $('.collapsible').collapsible();
             $('.fixed-action-btn').floatingActionButton();
             $('.modal').modal();
+            $('.tooltipped').tooltip();
+            M.AutoInit();
         });
     </script>
 

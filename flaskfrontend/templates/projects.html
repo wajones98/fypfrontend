@@ -92,6 +92,49 @@
 
                                                                     </div>
 
+                                                                    <div class="row">
+                                                                        <div class="col s12 m12 l6">
+                                                                            
+                                                                            <ul class="collapsible popout">
+                                                                                <li>
+                                                                                    <div class="collapsible-header hoverable">
+                                                                                        <i class="material-icons left pink-text text-darken-1">folder</i>Project Datasets
+                                                                                    </div>
+
+                                                                                    <div class="collapsible-body">
+                                                                                          
+                                                                                    </div>
+
+                                                                                </li>
+                                                                            </ul>
+
+                                                                        </div>
+                                                                        <div class="col s12 m12 l6">
+                                                                            
+                                                                            <ul class="collapsible popout">
+                                                                                <li>
+                                                                                    <div class="collapsible-header hoverable">
+                                                                                        <i class="material-icons left pink-text text-darken-1">group</i>Project Members
+                                                                                    </div>
+
+                                                                                    <div class="collapsible-body">
+                                                                                        <div class="row">
+                                                                                            <div class="col s12">
+                                                                                                <ul class="collection">
+                                                                                                    {% for member in project.get_members() %}
+                                                                                                        <li class="collection-item"><i class="material-icons left pink-text text-darken-1">account_circle</i>{{member['email']}}</li>
+                                                                                                    {% endfor %}
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                </li>
+                                                                            </ul>
+
+                                                                        </div>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
 

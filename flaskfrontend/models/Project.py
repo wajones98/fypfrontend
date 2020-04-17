@@ -83,7 +83,7 @@ class Project:
         return self.project['creator']
 
     def set_members(self, members):
-        self.project['memebers'] = members
+        self.project['members'] = members
         return self
     
     def get_members(self):

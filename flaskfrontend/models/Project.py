@@ -37,6 +37,16 @@ class Project:
         return response
 
     @staticmethod
+    def join_project(json_body):
+        r = requests.post(
+            f'{BASE_URL}/project/join',
+            json=json_body,
+            headers={'SessionId': session['session_id']}
+        )
+        response = r.json()
+        return response
+
+    @staticmethod
     def create_project(json_body):
         r = requests.post(
             f'{BASE_URL}/project/create',

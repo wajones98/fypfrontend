@@ -72,4 +72,17 @@ def projects_make_public_or_private():
         response = Project.make_public(json_body)
         flash(response['Message']) 
     return redirect(url_for('projects.projects'))     
+
+@Projects.route('/projects/join', methods=['POST'])
+def projects_join():
+    if request.method == 'POST':
+        if 'session_id' not in session:
+            return redirect(url_for('auth.auth'))
+        json_body = {
+            "ProjectId": request.form['action'],
+        }
+        response = Project.join_project(json_body)
+        flash(response['Message']) 
+    return redirect(url_for('projects.projects'))    
+
         

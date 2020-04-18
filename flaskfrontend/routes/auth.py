@@ -27,6 +27,8 @@ def login():
             flash(response['Message'])
             return redirect('/auth')
         session['session_id'] = response['Message']
+        session['email'] = request.form['email']
+
         return redirect(url_for('browse.browse'))
 
 @Auth.route('/auth/logout')

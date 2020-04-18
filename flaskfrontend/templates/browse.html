@@ -34,8 +34,8 @@
                             <div class="collapsible-body">
 
                                 <div class="row">
-                                    <div class="col s12 m6">
-                                        <div class="card"  style="height: 488px;">
+                                    <div class="col s12">
+                                        <div class="card">
                                             <div class="card-content">
                                                 <span class="card-title center-align">Dataset Information</span>
                                                 <div class="row">
@@ -56,24 +56,30 @@
                                                         </ul>
                                                     </div>
                                                 </div>
-        
-                                                <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
-                                                    <input name="datasetName" value="{{item.get_data_set_name()}}" id="datasetName" class="hide form-control">
-                                                    <input name="datasetId" value="{{item.get_data_set_id()}}" id="datasetId" class="hide form-control">
-                                                    <button class="pink darken-1 waves-effect waves-light btn right" type="submit" name="action">Download</button>
-                                                </form>
+                                                <div class="row">
+                                                    <div class="col s12">
+                                                        
+                                                            <button id="btnAdd{{item.get_data_set_id()}}" data-target="modalAdd" onclick="updateSelectedDataset('{{item.get_data_set_id()}}')" class="pink darken-1 waves-effect waves-light btn modal-trigger left" >Add to project</button>
+                                                                                                           
+                                                            <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
+                                                                <input name="datasetName" value="{{item.get_data_set_name()}}" id="datasetName" class="hide form-control">
+                                                                <input name="datasetId" value="{{item.get_data_set_id()}}" id="datasetId" class="hide form-control">
+                                                                <button class="pink darken-1 waves-effect waves-light btn right" type="submit" name="action">Download</button>
+                                                            </form>                                                     
 
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     
-                                    <div class="col s12 m6">
+                                    <div class="col s12">
                                         <div class="card">
                                             <div class="card-content">
                                                 <div class="slider">
                                                     <ul class="slides">
                                                       <li>
-                                                        <img class="responsive-img" src="https://lorempixel.com/580/250/nature/1"> <!-- random image -->
+                                                        <img class="responsive-img" src="{{ url_for('static', filename='/img/logo.jpg')}}"> <!-- random image -->
                                                       </li>
                                                       <li>
                                                         <img class="responsive-img" src="https://lorempixel.com/580/250/nature/2"> <!-- random image -->
@@ -164,18 +170,85 @@
         </div>
 
     </div>
+    <div id="modalAdd" class="modal">
+        <div class="modal-content">
+            <h5>Add to project</h5>
+            <form id="downloadFileForm" method="POST" action="/project/add"></form>
+                <div class="row">
+                    <div class="col s12">
+
+                        <div class="input-field col s12">
+                            <select id="projectsSelected" multiple>
+                            <option value="" disabled>Choose your option</option>
+                            {% for project in projects %}
+                                <option value="{{project.get_project_id()}}}">{{project.get_name()}}</option>
+                            {% endfor %}
+                            </select>
+                            <label>Select projects</label>
+                        </div>
+
+                    </div>
+                </div>
+
+        </div>
+                <div class="modal-footer">
+                    <a class="modal-close btn waves-effect waves-light left white pink-text text-darken-1 hoverable">cancel</a>
+                    <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" onclick="addDataset()" >add</button>
+                </div>
+            
+    </div> 
 
 </div>
 <script>
-      $(document).ready(function(){
+    $(document).ready(function(){
         $('.collapsible').collapsible();
-        });
-        $(document).ready(function(){
-    $('.slider').slider();
-  });
-  $(document).ready(function() {
-    M.updateTextFields();
-  });
+        $('.slider').slider();
+        $('.modal').modal();
+        $('select').formSelect();
+        M.updateTextFields();
+    });
+    document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('select');
+    var instances = M.FormSelect.init(elems);
+    });
+
+    var selectedDataset = "";
+
+    function updateSelectedDataset(newSelected){
+        selectedDataset = newSelected;
+    }
+
+    function addDataset(){
+        var elem = document.getElementById("projectsSelected");
+        var instance = M.FormSelect.getInstance(elem);
+        const Url = "http://192.168.0.22:8080/project/add";
+        var selected = instance.getSelectedValues();
+        json_body = {
+                "Projects":selected,
+                "DatasetId":selectedDataset
+            }
+        const request={
+            headers:{
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                "SessionId":"{{session}}"
+            },
+            body:JSON.stringify(json_body),
+            method:"POST"
+        };
+        console.log(request);
+        fetch(Url, request)
+        .then(data=>{return data.json()})
+        .then(res=>{
+            console.log(res)
+            var elem = document.getElementById("modalAdd");
+            var instance = M.Modal.getInstance(elem);
+            instance.close();
+            M.toast({html: res['Message'], classes: 'rounded pink darken-1'});
+        })
+        .fetch(error=>console.log(error))       
+    }
+        
 </script>
 
 {% endblock %}

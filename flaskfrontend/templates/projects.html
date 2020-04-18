@@ -32,7 +32,7 @@
                                                     
                                                     <div class="row">
                                                         
-                                                        <div class="col s12 m6 l3">
+                                                        <div class="col s12 m12 l3">
                                                             
                                                             <div class="card">
                                                                 <div class="card-content">
@@ -42,57 +42,57 @@
                                                                     
                                                                     <div class="row">
                                                                         
-                                                                        
-                                                                            <div class="row center">
-                                                                                <div class="col s12">
-                                                                                    <a class="btn modal-trigger waves-effect waves-light center-align pink darken-1 " href="#{{project.get_project_id()}}Invite">Invite</a>
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div id="{{project.get_project_id()}}Invite" class="modal">
-                                                                                <div class="modal-content">
-                                                                                    <h5>Invite User</h5>
-                                                                                        
-                                                                                    <div class="row">
-                                                                                                        
-                                                                                        <form class="col s12" method="post" action="/projects/invite">
-                                                                                                            
-                                                                                            <div class="input-field col s12 form-group">
-                                                                                                <input id="projectEmail" name="projectEmail" type="Email" class="validate form-control" required="" aria-required="true">
-                                                                                                <label for="projectName">Email</label>
-                                                                                            </div>
-                                                                                            
-                                                                                            <div class="col s12">
-                                                                                                <div class="col s12 m12 l6 offset-l6">
-                                                                                                    <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" value ="{{project.get_project_id()}} "type="submit" name="action">Invite</button>
-                                                                                                    <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </form>
-                                                                        
+                                                                            {% if session['email'] == project.get_creator() %}
+                                                                                <div class="row center">
+                                                                                    <div class="col s12">
+                                                                                        <a class="btn modal-trigger waves-effect waves-light center-align pink darken-1 " href="#{{project.get_project_id()}}Invite">Invite</a>
                                                                                     </div>
-                                                                        
                                                                                 </div>
-                                                                            </div>
 
-                                                                            <div class="row center">
-                                                                                <div class="col s12">
-                                                                                             
-                                                                                        {% if project.get_public() == true %}
-                                                                                        <form class="col s12" method="post" action="/projects/mode">
-                                                                                            <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Private</button>
-                                                                                            <input name="val" value="0" id="file_name" class="hide form-control">
-                                                                                        </form>
-                                                                                        {% else %}
-                                                                                        <form class="col s12" method="post" action="/projects/mode">
-                                                                                            <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Public</button>
-                                                                                            <input name="val" value="1" id="file_name" class="hide form-control">
-                                                                                        </form>
-                                                                                        {% endif %}
-
+                                                                                <div id="{{project.get_project_id()}}Invite" class="modal">
+                                                                                    <div class="modal-content">
+                                                                                        <h5>Invite User</h5>
+                                                                                            
+                                                                                        <div class="row">
+                                                                                                            
+                                                                                            <form class="col s12" method="post" action="/projects/invite">
+                                                                                                                
+                                                                                                <div class="input-field col s12 form-group">
+                                                                                                    <input id="projectEmail" name="projectEmail" type="Email" class="validate form-control" required="" aria-required="true">
+                                                                                                    <label for="projectName">Email</label>
+                                                                                                </div>
+                                                                                                
+                                                                                                <div class="col s12">
+                                                                                                    <div class="col s12 m12 l6 offset-l6">
+                                                                                                        <button class="btn waves-effect waves-light right white pink-text text-darken-1 hoverable" value ="{{project.get_project_id()}} "type="submit" name="action">Invite</button>
+                                                                                                        <a class="modal-close btn waves-effect waves-light right white pink-text text-darken-1 hoverable">cancel</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </form>
+                                                                            
+                                                                                        </div>
+                                                                            
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
 
+                                                                                <div class="row center">
+                                                                                    <div class="col s12">
+                                                                                                
+                                                                                            {% if project.get_public() == true %}
+                                                                                            <form class="col s12" method="post" action="/projects/mode">
+                                                                                                <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Private</button>
+                                                                                                <input name="val" value="0" id="file_name" class="hide form-control">
+                                                                                            </form>
+                                                                                            {% else %}
+                                                                                            <form class="col s12" method="post" action="/projects/mode">
+                                                                                                <button class="btn waves-effect waves-light center-align pink darken-1" value ="{{project.get_project_id()}}" type="submit" name="action">Make Public</button>
+                                                                                                <input name="val" value="1" id="file_name" class="hide form-control">
+                                                                                            </form>
+                                                                                            {% endif %}
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            {% endif %}
                                                                             <div class="row center">
                                                                                 <div class="col s12">
                                                                                     <a class="btn modal-trigger waves-effect waves-light center-align pink darken-1 " href="#{{project.get_project_id()}}Leave">Leave</a>
@@ -130,7 +130,7 @@
                                                             </div>
 
                                                         </div>
-                                                        <div class="col s12 m6 l9">
+                                                        <div class="col s12 m12 l9">
                                                             
                                                             <div class="card">
                                                                 <div class="card-content">
@@ -142,13 +142,13 @@
                                                                     <div class="row">
 
                                                                         <div class="col s12 m12 l6">
-                                                                            <blockquote class="flow-text">
+                                                                            <blockquote>
                                                                                 Created By: {{project.get_creator()}}
                                                                             </blockquote>
                                                                         </div>
 
                                                                         <div class="col s12 m12 l6">
-                                                                            <blockquote class="flow-text">
+                                                                            <blockquote>
                                                                                 {{project.get_desc()}}
                                                                             </blockquote>
                                                                         </div>
@@ -188,6 +188,8 @@
                                                                                                         <li class="collection-item">{{member['email']}}
                                                                                                             {% if member['pending'] %}
                                                                                                                 <span class="new badge pink darken-1" data-badge-caption="pending"></span>
+                                                                                                            {% else %}
+                                                                                                                <span class="new badge pink darken-1" data-badge-caption="member"></span>
                                                                                                             {% endif %}
                                                                                                         </li>
                                                                                                     {% endfor %}
@@ -225,6 +227,23 @@
                     </div>
 
                 </div>
+                <div class="row">
+                    <div class="col s12">
+                        
+                        <div class="card">
+                            <div class="card-content">
+                                <span class="card-title center-align"><h4>Public Projects</h4></span>
+                                
+                                <div class="row">
+                                    <div class="col s12">
+                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
                 <div class="fixed-action-btn">
                     <a class="btn-floating btn-large modal-trigger pink darken-1"><i class="material-icons">menu</i></a>
                     <ul>
@@ -279,7 +298,15 @@
 
                                     <ul class="collection">
                                         {% for invitation in invitations %}
-                                            <li class="collection-item"><div>{{invitation.get_name()}}<a href="#!" class="secondary-content"><i class="material-icons pink-text text-darken-1 hoverable">done</i></a></div></li>
+                                            <li class="collection-item">
+                                                <div>
+
+                                                    <form method="post" action="/projects/join">
+                                                        {{invitation.get_name()}}<button value="{{invitation.get_project_id()}}" class="btn-flat secondary-content" type="submit" name="action"><i class="material-icons pink-text text-darken-1">done</i></button>
+                                                    </form>
+                                                    
+                                                </div>
+                                            </li>
                                         {% endfor %}
                                     </ul>
 

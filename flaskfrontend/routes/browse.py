@@ -1,5 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, session, url_for, flash, jsonify
 from models.SearchItem import SearchItem
+from models.Project import Project
 
 import requests
 import json
@@ -15,8 +16,9 @@ BASE_URL = 'http://192.168.0.22:8080'
 def browse():
     if 'session_id' not in session:
         return redirect(url_for('auth.auth'))
-    search_results = SearchItem.get_search_items({})
-    return render_template('browse.html', items=search_results)
+    search_results = SearchItem.get_search_items({'Parameters': {"ProjectName": 'none'}})
+    projects = Project.get_users_projects()
+    return render_template('browse.html', items=search_results, projects=projects, session=session['session_id'])
 
 @Browse.route('/search', methods=['POST'])
 def search():

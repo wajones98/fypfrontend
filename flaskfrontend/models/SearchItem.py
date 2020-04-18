@@ -23,12 +23,12 @@ class SearchItem:
     def get_data_set_name(self):
         return self.search_result['DatasetName']
 
-    def set_project_name(self, project_name):
-        self.search_result['ProjectName'] = project_name
+    def set_projects(self, projects):
+        self.search_result['Projects'] = projects
         return self
     
-    def get_project_name(self):
-        return self.search_result['ProjectName']
+    def get_projects(self):
+        return self.search_result['Projects']
 
     def set_signal_type(self, signal_type):
         self.search_result['SignalType'] = signal_type
@@ -122,7 +122,7 @@ class SearchItem:
             if item['DatasetId'] not in datasets:
                 search_item = SearchItem()
                 search_item.set_data_set_name(item['DatasetName'])
-                search_item.set_project_name(item['ProjectName'])
+                search_item.set_projects(item['Projects'])
                 search_item.set_signal_type(item['SignalType'])
                 search_item.set_species(item['Species'])
                 search_item.set_gender(item['Gender'])

@@ -58,9 +58,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col s12">
-                                                        
-                                                            <button id="btnAdd{{item.get_data_set_id()}}" data-target="modalAdd" onclick="updateSelectedDataset('{{item.get_data_set_id()}}')" class="pink darken-1 waves-effect waves-light btn modal-trigger left" >Add to project</button>
-                                                                                                           
+                                                            <button id="btnAdd{{item.get_data_set_id()}}" data-target="modalAdd" onclick="updateSelectedDataset('{{item.get_data_set_id()}}')" class="pink darken-1 waves-effect waves-light btn modal-trigger left" >Add to project</button>                        
                                                             <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
                                                                 <input name="datasetName" value="{{item.get_data_set_name()}}" id="datasetName" class="hide form-control">
                                                                 <input name="datasetId" value="{{item.get_data_set_id()}}" id="datasetId" class="hide form-control">
@@ -99,33 +97,33 @@
                                 </div>
 
                                 <div class="row">
-
-                                    <div class="col s12 m6">
-                                        <ul class="collapsible">
-                                            <li>
-                                                <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
-                                                <div class="collapsible-body">
-                                                    <table>
-                                                        <thead>
-                                                            <tr>
-                                                                <th>Key</th>
-                                                                <th>Value</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for key in item.get_tags().keys() %}
+                                    {% if item.get_tags() %}
+                                        <div class="col s12 m6">
+                                            <ul class="collapsible">
+                                                <li>
+                                                    <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
+                                                    <div class="collapsible-body">
+                                                        <table>
+                                                            <thead>
                                                                 <tr>
-                                                                    <td>{{key}}</td>
-                                                                    <td>{{item.get_tags()[key]}}</td>
+                                                                    <th>Key</th>
+                                                                    <th>Value</th>
                                                                 </tr>
-                                                            {% endfor %}
-                                                        </tbody>
-                                                    </table>
-                                                </div>
-                                            </li>
-                                        </ul>
-                                    </div>
-
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for key in item.get_tags().keys() %}
+                                                                    <tr>
+                                                                        <td>{{key}}</td>
+                                                                        <td>{{item.get_tags()[key]}}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
                                     <div class="col s12 m6">
                                         <ul class="collapsible">
                                             <li>
@@ -157,6 +155,36 @@
                                             </li>
                                         </ul>
                                     </div>
+                                    
+                                    {% if item.get_projects() %}
+                                        <div class="col s12 m6">
+                                            <ul class="collapsible">
+                                                <li>
+                                                    <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">work</i>Projects</div>
+                                                    <div class="collapsible-body">
+                                                        <table>
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Name</th>
+                                                                    <th>Start</th>
+                                                                    <th>End</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for project in item.get_projects().keys() %} 
+                                                                    <tr>
+                                                                        <td>{{item.get_projects()[project]['Name']}}</td>
+                                                                        <td>{{item.get_projects()[project]['StartDate']}}</td>
+                                                                        <td>{{item.get_projects()[project]['EndDate']}}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    {% endif %}
 
                                 </div>
                                 

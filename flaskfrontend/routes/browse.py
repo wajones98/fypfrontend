@@ -17,7 +17,7 @@ def browse():
     if 'session_id' not in session:
         return redirect(url_for('auth.auth'))
     search_results = SearchItem.get_search_items({'Parameters': {"ProjectName": 'none'}})
-    projects = Project.get_users_projects()
+    projects = Project.get_users_projects()  
     return render_template('browse.html', items=search_results, projects=projects, session=session['session_id'])
 
 @Browse.route('/search', methods=['POST'])

@@ -7,6 +7,10 @@ BASE_URL = 'http://192.168.0.22:8080'
 class Project:
     
     @staticmethod
+    def get_datasets_for_project(project_id):
+        return None
+
+    @staticmethod
     def make_public(json_body):
         r = requests.post(
             f'{BASE_URL}/project/mode',
@@ -63,10 +67,8 @@ class Project:
             headers={'SessionId': session['session_id']}
         )
         response = r.json()
-        print(response)
         projects = []
         for item in response['Projects']:
-            print(item)
             project = Project()
             project.set_project_id(item['ProjectId'])
             project.set_name(item['Name'])
@@ -154,3 +156,10 @@ class Project:
     
     def get_members(self):
         return self.project['members']
+
+    def set_datasets(self, datasets):
+        self.project['datasets'] = datasets
+        return self
+
+    def get_datasets(self):
+        return self.project['datasets']

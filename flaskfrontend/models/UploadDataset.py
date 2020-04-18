@@ -38,18 +38,15 @@ class UploadDataset():
             os.remove(full_path)
         if response['Status'] == 201:
             files = {}
-            print('here')
             self.metadata['DataSetId'] = response['DataSetId']
             for file in response['Files']:
                 if file['Message'] == 'Successfully uploaded':
                     files[file['FileId']] = file['FileName'] 
             self.metadata['Files'] = files
-            print(self.metadata)
             r = requests.post(
                 f'{self.BASE_URL}/upload/metadata',
                 json=self.metadata,
                 headers={'SessionId': session['session_id']}
             )
             response = r.json()
-            print(response)
         return response

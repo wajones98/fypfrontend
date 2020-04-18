@@ -1,13 +1,14 @@
 from flask import session
 import json
 import requests
+from models.SearchItem import SearchItem
 
 BASE_URL = 'http://192.168.0.22:8080'
 
 class Project:
     
     @staticmethod
-    def get_datasets_for_project(project_id):
+    def get_datasets_for_projects(project_id):
         return None
 
     @staticmethod
@@ -94,6 +95,7 @@ class Project:
             project.set_end(item['EndDate'])
             project.set_public(item['Public'])
             project.set_members(item['Members'])
+            project.set_datasets(SearchItem.get_search_items({'Parameters': {"ProjectId": project.get_project_id()}}, private=False))
             projects.append(project)
         return projects
         
@@ -159,7 +161,14 @@ class Project:
 
     def set_datasets(self, datasets):
         self.project['datasets'] = datasets
+        ids = []
+        for dataset in self.project['datasets']:
+            ids.append(dataset.get_data_set_id())
+        self.project['dataset_ids'] = ids
         return self
 
     def get_datasets(self):
         return self.project['datasets']
+
+    def get_dataset_ids(self):
+        return self.project['dataset_ids']

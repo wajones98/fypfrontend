@@ -108,11 +108,15 @@ class SearchItem:
         return self.search_result['DatasetId']
 
     @staticmethod
-    def get_search_items(body):
+    def get_search_items(body, private = True):
+        if private is True:
+            headers = {'SessionId': session['session_id']}
+        else:
+            headers = {'SessionId': session['session_id'], 'Private': 'private'}
         r = requests.post(
             f'{BASE_URL}/search',
             json=body,
-            headers={'SessionId': session['session_id']}
+            headers=headers
         )
         response = r.json()
 

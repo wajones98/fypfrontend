@@ -165,7 +165,25 @@
                                                                                     </div>
 
                                                                                     <div class="collapsible-body">
-                                                                                          
+                                                                                        
+                                                                                        <div class="collection">
+                                                                                            {% for dataset in project.get_datasets() %}
+                                                                                            <a href="#{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal" class="collection-item pink-text text-darken-1 modal-trigger">{{dataset.get_data_set_name()}}</a>
+                                                                                            <div id="{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal" class="modal">
+                                                                                                <div class="modal-content">
+                                                                                                    <h5>{{dataset.get_data_set_name()}}</h5>
+                                                                                                        
+                                                                                                    <div class="row">
+                                                                                                                        
+
+                                                                                        
+                                                                                                    </div>
+                                                                                        
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            {% endfor %}
+                                                                                        </div>
+                                                                                        
                                                                                     </div>
 
                                                                                 </li>

@@ -175,11 +175,131 @@
                                                                                                         
                                                                                                     <div class="row">
                                                                                                                         
-
+                                                                                                        <div class="col s12">
+                                                                                                            <div class="card">
+                                                                                                                <div class="card-content">
+                                                                                                                    <span class="card-title center-align">Dataset Information</span>
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col s12 m6">
+                                                                                                                            <ul class="collection center-left">
+                                                                                                                                <li class="collection-item"><b>Signal Type: </b>{{dataset.get_signal_type()}}</li>
+                                                                                                                                <li class="collection-item"><b>Species: </b>{{dataset.get_species()}}</li>
+                                                                                                                                <li class="collection-item"><b>Gender: </b>{{dataset.get_gender()}}</li>
+                                                                                                                                <li class="collection-item"><b>Age: </b>{{dataset.get_age()}}</li>
+                                                                                                                            </ul>
+                                                                                                                        </div>
+                                                                                                                        <div class="col s12 m6">
+                                                                                                                            <ul class="collection center-left">
+                                                                                                                                <li class="collection-item"><b>Target: </b>{{dataset.get_target()}}</li>
+                                                                                                                                <li class="collection-item"><b>Action: </b>{{dataset.get_action()}}</li>
+                                                                                                                                <li class="collection-item"><b>Channel Count: </b>{{dataset.get_channel_count()}}</li>
+                                                                                                                                <li class="collection-item"><b>Device: </b>{{dataset.get_device()}}</li>
+                                                                                                                            </ul>
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                    <div class="row">
+                                                                                                                        <div class="col s12">
+                                                                                                                                
+                                                                                                                                <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
+                                                                                                                                    <input name="datasetName" value="{{dataset.get_data_set_name()}}" id="datasetName" class="hide form-control">
+                                                                                                                                    <input name="datasetId" value="{{dataset.get_data_set_id()}}" id="datasetId" class="hide form-control">
+                                                                                                                                    <button class="pink darken-1 waves-effect waves-light btn right" type="submit" name="action">Download</button>
+                                                                                                                                </form>                                                     
+                                                                    
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="col s12">
+                                                                                                            <div class="card">
+                                                                                                                <div class="card-content">
+                                                                                                                    <div class="slider">
+                                                                                                                        <ul class="slides">
+                                                                                                                          <li>
+                                                                                                                            <img class="responsive-img" src="{{ url_for('static', filename='/img/logo.jpg')}}"> <!-- random image -->
+                                                                                                                          </li>
+                                                                                                                          <li>
+                                                                                                                            <img class="responsive-img" src="https://lorempixel.com/580/250/nature/2"> <!-- random image -->
+                                                                                                                          </li>
+                                                                                                                          <li>
+                                                                                                                            <img class="responsive-img" src="https://lorempixel.com/580/250/nature/3"> <!-- random image -->
+                                                                                                                          </li>
+                                                                                                                          <li>
+                                                                                                                            <img class="responsive-img" src="https://lorempixel.com/580/250/nature/4"> <!-- random image -->
+                                                                                                                          </li>
+                                                                                                                        </ul>
+                                                                                                                      </div>
+                                                                                                                </div> 
+                                                                                                            </div> 
+                                                                                                        </div>
                                                                                         
                                                                                                     </div>
-                                                                                        
+                                                                                                    <div class="row">
+                                                                                                        {% if dataset.get_tags() %}
+                                                                                                            <div class="col s12 m6">
+                                                                                                                <ul class="collapsible">
+                                                                                                                    <li>
+                                                                                                                        <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
+                                                                                                                        <div class="collapsible-body">
+                                                                                                                            <table>
+                                                                                                                                <thead>
+                                                                                                                                    <tr>
+                                                                                                                                        <th>Key</th>
+                                                                                                                                        <th>Value</th>
+                                                                                                                                    </tr>
+                                                                                                                                </thead>
+                                                                                                                                <tbody>
+                                                                                                                                    {% for key in dataset.get_tags().keys() %}
+                                                                                                                                        <tr>
+                                                                                                                                            <td>{{key}}</td>
+                                                                                                                                            <td>{{dataset.get_tags()[key]}}</td>
+                                                                                                                                        </tr>
+                                                                                                                                    {% endfor %}
+                                                                                                                                </tbody>
+                                                                                                                            </table>
+                                                                                                                        </div>
+                                                                                                                    </li>
+                                                                                                                </ul>
+                                                                                                            </div>
+                                                                                                        {% endif %}
+                                                                                                        <div class="col s12 m6">
+                                                                                                            <ul class="collapsible">
+                                                                                                                <li>
+                                                                                                                    <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">description</i>Source Files</div>
+                                                                                                                    <div class="collapsible-body">
+                                                                                                                        <table>
+                                                                                                                            <thead>
+                                                                                                                                <tr>
+                                                                                                                                    <th>Filename</th>
+                                                                                                                                    <th>Download</th>
+                                                                                                                                </tr>
+                                                                                                                            </thead>
+                                                                                                                            <tbody>
+                                                                                                                                {% for file in dataset.get_files() %}
+                                                                                                                                    {% if file['Change'] == 'project source' %}
+                                                                                                                                    <tr>
+                                                                                                                                        <form id="downloadFileForm" method="POST" action="/download/file">
+                                                                                                                                             <td>{{file['Filename']}}</td>
+                                                                                                                                            <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
+                                                                                                                                            <input name="dataset" value="{{dataset.get_data_set_name()}}" id="dataset" class="hide form-control">
+                                                                                                                                            <td><button value="{{file['Filepath']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
+                                                                                                                                        </form>
+                                                                                                                                    </tr>
+                                                                                                                                    {% endif %}
+                                                                                                                                {% endfor %}
+                                                                                                                            </tbody>
+                                                                                                                        </table>
+                                                                                                                    </div>
+                                                                                                                </li>
+                                                                                                            </ul>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                
                                                                                                 </div>
+                                                                                        
+                                            
+                                                                                                
                                                                                             </div>
                                                                                             {% endfor %}
                                                                                         </div>
@@ -350,6 +470,7 @@
             $('.fixed-action-btn').floatingActionButton();
             $('.modal').modal();
             $('.tooltipped').tooltip();
+            $('.slider').slider();
             M.AutoInit();
         });
     </script>

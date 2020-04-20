@@ -8,10 +8,6 @@ BASE_URL = 'http://192.168.0.22:8080'
 class Project:
     
     @staticmethod
-    def get_datasets_for_projects(project_id):
-        return None
-
-    @staticmethod
     def make_public(json_body):
         r = requests.post(
             f'{BASE_URL}/project/mode',

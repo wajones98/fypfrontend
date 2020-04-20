@@ -138,9 +138,12 @@ class SearchItem:
                 search_item.set_data_set_id(item['DatasetId'])
                 search_item.set_tags(item['Tags'])
                 file_info = {
+                    'FileId': item['FileId'],
                     'Filename': item['Filename'],
                     'Filepath': item['Filepath'],
-                    'Change': item['Change']
+                    'Change': item['Change'],
+                    'Previous': item['Previous'],
+                    'PreviousChange': item['PreviousChange']
                 }
                 search_item.get_files().append(file_info)
                 search_items.append(search_item)
@@ -148,9 +151,12 @@ class SearchItem:
                 for data_set in search_items:
                     if item['DatasetId'] == data_set.get_data_set_id():
                         file_info = {
+                            'FileId': item['FileId'],
                             'Filename': item['Filename'],
                             'Filepath': item['Filepath'],
-                            'Change': item['Change']
+                            'Change': item['Change'],
+                            'Previous': item['Previous'],
+                            'PreviousChange': item['PreviousChange']
                         }
                         data_set.get_files().append(file_info)
                         session[item['DatasetId']] = data_set.get_files()

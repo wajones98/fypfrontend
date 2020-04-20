@@ -24,3 +24,20 @@
     </div>
 
 </div>
+
+
+
+
+
+var model = $(go.TreeModel);
+    for (i in res["History"]){
+        var entry = res["History"][i];
+        console.log(entry);
+        var item = {}
+        if (i === 0){
+            item = { key: entry["Filepath"], name: entry["Change"]}
+        } else {
+            item = { key: entry["Filepath"], parent: entry["Previous"], change: entry["Change"]}
+        }       
+        model.nodeDataArray.push(item)
+    }

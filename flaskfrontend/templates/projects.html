@@ -6,7 +6,7 @@
         <div class="row">  
             <div class="col s12">
            
-                <div class="row">
+                <div id='ProjectViewerRow' class="row">
                     
                     <div class="col s12">
                         
@@ -237,7 +237,7 @@
                                                                                                     </div>
                                                                                                     <div class="row">
                                                                                                         {% if dataset.get_tags() %}
-                                                                                                            <div class="col s12 m6">
+                                                                                                            <div class="col s12">
                                                                                                                 <ul class="collapsible">
                                                                                                                     <li>
                                                                                                                         <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">label</i>Tags</div>
@@ -263,7 +263,7 @@
                                                                                                                 </ul>
                                                                                                             </div>
                                                                                                         {% endif %}
-                                                                                                        <div class="col s12 m6">
+                                                                                                        <div class="col s12">
                                                                                                             <ul class="collapsible">
                                                                                                                 <li>
                                                                                                                     <div class="collapsible-header hoverable"><i class="material-icons pink-text text-darken-1">description</i>Source Files</div>
@@ -272,19 +272,25 @@
                                                                                                                             <thead>
                                                                                                                                 <tr>
                                                                                                                                     <th>Filename</th>
-                                                                                                                                    <th>Download</th>
+                                                                                                                                    <th>Download Source</th>
+                                                                                                                                    <th>Download Versions</th>
+                                                                                                                                    <th>File History</th>
+                                                                                                                                    <th>Upload Change</th>
                                                                                                                                 </tr>
                                                                                                                             </thead>
                                                                                                                             <tbody>
                                                                                                                                 {% for file in dataset.get_files() %}
                                                                                                                                     {% if file['Change'] == 'project source' %}
                                                                                                                                     <tr>
-                                                                                                                                        <form id="downloadFileForm" method="POST" action="/download/file">
+                                                                                                                                        <form method="POST" action="/download/file">
                                                                                                                                              <td>{{file['Filename']}}</td>
                                                                                                                                             <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
                                                                                                                                             <input name="dataset" value="{{dataset.get_data_set_name()}}" id="dataset" class="hide form-control">
                                                                                                                                             <td><button value="{{file['Filepath']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
                                                                                                                                         </form>
+                                                                                                                                        <td><a href="#{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal" class="collection-item pink-text text-darken-1 modal-trigger">View Versions</a></td>
+                                                                                                                                        <td></td>
+                                                                                                                                        <td></td>
                                                                                                                                     </tr>
                                                                                                                                     {% endif %}
                                                                                                                                 {% endfor %}
@@ -365,16 +371,18 @@
                     </div>
 
                 </div>
-                <div class="row">
+                <div id="FileHistoryViewRow" class="row hide">
                     <div class="col s12">
                         
                         <div class="card">
                             <div class="card-content">
-                                <span class="card-title center-align"><h4>Public Projects</h4></span>
+                                <span class="card-title center-align"><h4>File History Viewer</h4></span>
                                 
                                 <div class="row">
                                     <div class="col s12">
-                    
+                                        <div id="myDiagramDiv" style="width:100%; height:50rem; border: 1px solid black;">
+                                        
+                                        </div>
                                     </div>
                                 </div>
                             </div>

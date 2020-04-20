@@ -63,16 +63,16 @@
                                                             <div id="modalAdd{{item.get_data_set_id()}}" class="modal">
                                                                 <div class="modal-content">
                                                                     <h5>Add to project</h5>
-                                                                    <form id="downloadFileForm" method="POST" action="/project/add"></form>
+                                                                    <form id="downloadFileForm{{item.get_data_set_id()}}" method="POST" action="/project/add"></form>
                                                                         <div class="row">
                                                                             <div class="col s12">
                                                         
                                                                                 <div class="input-field col s12">
-                                                                                    <select id="projectsSelected" multiple>
+                                                                                    <select id="projectsSelected{{item.get_data_set_id()}}" multiple>
                                                                                     <option value="" disabled>Choose your option</option>
                                                                                     {% for project in projects %}
                                                                                         {% if not item.get_data_set_id() in project.get_dataset_ids() %}
-                                                                                            <option value="{{project.get_project_id()}}}">{{project.get_name()}}</option>
+                                                                                            <option value="{{project.get_project_id()}}">{{project.get_name()}}</option>
                                                                                         {% else %}
                                                                                             <option value="" disabled>{{project.get_name()}}</option>
                                                                                         {% endif %}
@@ -92,7 +92,7 @@
                                                                     
                                                             </div> 
                                                             
-                                                            <form id="downloadDatasetForm" method="POST" action="/download/dataset">                                        
+                                                            <form id="downloadDatasetForm{{item.get_data_set_id()}}" method="POST" action="/download/dataset">                                        
                                                                 <input name="datasetName" value="{{item.get_data_set_name()}}" id="datasetName" class="hide form-control">
                                                                 <input name="datasetId" value="{{item.get_data_set_id()}}" id="datasetId" class="hide form-control">
                                                                 <button class="pink darken-1 waves-effect waves-light btn right" type="submit" name="action">Download</button>
@@ -173,7 +173,7 @@
                                                             {% for file in item.get_files() %}
                                                                 {% if file['Change'] == 'source' %}
                                                                 <tr>
-                                                                    <form id="downloadFileForm" method="POST" action="/download/file">
+                                                                    <form method="POST" action="/download/file">
                                                                          <td>{{file['Filename']}}</td>
                                                                         <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
                                                                         <input name="dataset" value="{{item.get_data_set_name()}}" id="dataset" class="hide form-control">
@@ -254,10 +254,12 @@
     }
 
     function addDataset(){
-        var elem = document.getElementById("projectsSelected");
+        var elem = document.getElementById("projectsSelected" + selectedDataset);
         var instance = M.FormSelect.getInstance(elem);
-        const Url = "http://192.168.0.22:8080/project/add";
         var selected = instance.getSelectedValues();
+
+        const Url = "http://192.168.0.22:8080/project/add";
+        
         json_body = {
                 "Projects":selected,
                 "DatasetId":selectedDataset
@@ -274,13 +276,14 @@
         var elem = document.getElementById("modalAdd" + selectedDataset);
         var instance = M.Modal.getInstance(elem);
         instance.close();
+        
         fetch(Url, request)
         .then(data=>{return data.json()})
         .then(res=>{
             console.log(res)
             M.toast({html: res['Message'], classes: 'rounded pink darken-1'});
         })
-        .fetch(error=>console.log(error))       
+        .fetch(error=>console.log(error))
     }
         
 </script>

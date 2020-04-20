@@ -7,6 +7,8 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <!-- Compiled and minified JavaScript -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+        
+        <script src="https://cdn.jsdelivr.net/npm/gojs/release/go.js"></script>
         <!--Import Google Icon Font-->
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <!--Import materialize.css-->
@@ -44,6 +46,7 @@
             <li><a href="/projects"><i class="material-icons left pink-text text-darken-1">work</i>Projects</a></li>
             <li><a href="/auth/logout"><i class="material-icons left pink-text text-darken-1">power_settings_new</i>Logout</a></li>
         </ul>
+        <script type="text/javascript" src="{{ url_for('static', filename='js/fileHistory.js')}}"></script>
         {% block content %}
         {% endblock %}
 

@@ -8,8 +8,8 @@ from werkzeug.utils import secure_filename
 
 class UploadDataset():
     
-    BASE_URL = 'http://127.0.0.1:8080'
-    LANDING = '..\\flaskfrontend\\temp'
+    BASE_URL = 'http://35.178.187.62:8080'
+    LANDING = '../flaskfrontend/temp'
     def __init__(self, files, metadata):
         self.files = files
         self.metadata = metadata
@@ -60,7 +60,7 @@ class UploadDataset():
         file = self.files['file']
 
         file_name = secure_filename(file.filename)
-        full_path = os.path.join(self.LANDING, f'upload\\{file_name}')
+        full_path = os.path.join(self.LANDING, f'upload/{file_name}')
 
         file.save(full_path)
         fin = open(full_path, 'rb')

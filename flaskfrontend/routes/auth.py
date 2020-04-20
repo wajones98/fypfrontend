@@ -3,7 +3,7 @@ import requests
 
 Auth = Blueprint('auth', __name__)
 
-BASE_URL = 'http://192.168.0.22:8080'
+BASE_URL = 'http://127.0.0.1:8080'
 
 @Auth.route('/auth')
 def auth():

@@ -5,7 +5,7 @@ import os
 import boto3
 import json
 
-BASE_URL = 'http://192.168.0.22:8080'
+BASE_URL = 'http://127.0.0.1:8080'
 LANDING = '..\\flaskfrontend\\temp'
 
 class SearchItem:

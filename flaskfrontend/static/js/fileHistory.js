@@ -11,7 +11,7 @@ function openFileHistory(fileId, projectId, modal, sessionId){
     elem = document.getElementById('ProjectViewerRow');
     elem.classList.add("hide");
 
-    const Url = "http://192.168.0.22:8080/project/file/history";
+    const Url = "http://127.0.0.1:8080/project/file/history";
  
     json_body = {
             "FileId":fileId,

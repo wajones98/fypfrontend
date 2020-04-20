@@ -8,7 +8,7 @@ from werkzeug.utils import secure_filename
 
 class UploadDataset():
     
-    BASE_URL = 'http://192.168.0.22:8080'
+    BASE_URL = 'http://127.0.0.1:8080'
     LANDING = '..\\flaskfrontend\\temp'
     def __init__(self, files, metadata):
         self.files = files

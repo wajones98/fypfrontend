@@ -9,7 +9,7 @@ Browse = Blueprint('browse', __name__)
 
 search_items = []
 
-BASE_URL = 'http://192.168.0.22:8080'
+BASE_URL = 'http://127.0.0.1:8080'
 
 
 @Browse.route('/browse')

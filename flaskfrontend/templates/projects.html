@@ -272,8 +272,8 @@
                                                                                                                             <thead>
                                                                                                                                 <tr>
                                                                                                                                     <th>Filename</th>
-                                                                                                                                    <th>Download Source</th>
-                                                                                                                                    <th>Download Versions</th>
+                                                                                                                                    <th>Select</th>
+                                                                                                                                    <th>Download</th>
                                                                                                                                     <th>File History</th>
                                                                                                                                     <th>Upload Change</th>
                                                                                                                                 </tr>
@@ -282,15 +282,29 @@
                                                                                                                                 {% for file in dataset.get_files() %}
                                                                                                                                     {% if file['Change'] == 'project source' %}
                                                                                                                                     <tr>
+                                                                                                                                        <td>{{file['Filename']}}</td>
+                                                                                                                                        <td>  
+                                                                                                                                            <div class="input-field col s12">
+                                                                                                                                                <select id="select{{file['FileId']}}" onchange="getSelected(value,'btn{{file['FileId']}}')">
+                                                                                                                                                    <option value="" disabled selected>Choose your option</option>
+
+                                                                                                                                                    {% for file_version in dataset.get_files() %}
+                                                                                                                                                        {% if file_version['FileId'] ==  file['FileId'] %}
+                                                                                                                                                            <option value="{{file_version['Filepath']}}">{{file_version['Change']}}</option>
+                                                                                                                                                        {% endif %}
+                                                                                                                                                    {% endfor %}
+                                                                                                                            
+                                                                                                                                                </select>
+                                                                                                                                                <label>File versions</label>
+                                                                                                                                          </div>
+                                                                                                                                        </td>
                                                                                                                                         <form method="POST" action="/download/file">
-                                                                                                                                             <td>{{file['Filename']}}</td>
                                                                                                                                             <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
                                                                                                                                             <input name="dataset" value="{{dataset.get_data_set_name()}}" id="dataset" class="hide form-control">
-                                                                                                                                            <td><button value="{{file['Filepath']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
+                                                                                                                                            <td><button id="btn{{file['FileId']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
                                                                                                                                         </form>
-                                                                                                                                        <td><a href="#{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal" class="collection-item pink-text text-darken-1 modal-trigger">View Versions</a></td>
-                                                                                                                                        <td></td>
-                                                                                                                                        <td></td>
+                                                                                                                                        <td><a class="pink darken-1 waves-effect waves-light btn" onclick="openFileHistory('{{file['FileId']}}', '{{project.get_project_id()}}','{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal','{{session['session_id']}}')">View History</a></td>
+                                                                                                                                        
                                                                                                                                     </tr>
                                                                                                                                     {% endif %}
                                                                                                                                 {% endfor %}
@@ -481,6 +495,11 @@
             $('.slider').slider();
             M.AutoInit();
         });
+
+        //var selectedFile = "";
+        function getSelected(selected, fileBtn){
+            document.getElementById(fileBtn).value = selected;
+        }
     </script>
 
 {% endblock %}

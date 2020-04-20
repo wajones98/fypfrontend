@@ -285,7 +285,7 @@
                                                                                                                                         <td>{{file['Filename']}}</td>
                                                                                                                                         <td>  
                                                                                                                                             <div class="input-field col s12">
-                                                                                                                                                <select id="select{{file['FileId']}}" onchange="getSelected(value,'btn{{file['FileId']}}')">
+                                                                                                                                                <select id="select{{file['FileId']}}" onchange="getSelected(value,'btnDownload{{file['FileId']}}', 'btnUpload{{file['FileId']}}')">
                                                                                                                                                     <option value="" disabled selected>Choose your option</option>
 
                                                                                                                                                     {% for file_version in dataset.get_files() %}
@@ -301,10 +301,35 @@
                                                                                                                                         <form method="POST" action="/download/file">
                                                                                                                                             <input name="fileName" value="{{file['Filename']}}" id="file_name" class="hide form-control">
                                                                                                                                             <input name="dataset" value="{{dataset.get_data_set_name()}}" id="dataset" class="hide form-control">
-                                                                                                                                            <td><button id="btn{{file['FileId']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
+                                                                                                                                            <td><button id="btnDownload{{file['FileId']}}" class="pink darken-1 waves-effect waves-light btn" type="submit" name="action">Download</button></td>
                                                                                                                                         </form>
                                                                                                                                         <td><a class="pink darken-1 waves-effect waves-light btn" onclick="openFileHistory('{{file['FileId']}}', '{{project.get_project_id()}}','{{dataset.get_data_set_name()}}{{project.get_project_id()}}Modal','{{session['session_id']}}')">View History</a></td>
-                                                                                                                                        
+                                                                                                                                        <td>
+                                                                                                                                            <div class="row">
+                                                                                                                                                <form method="POST" enctype="multipart/form-data" action="/upload/projects/file">
+                                                                                                                                                    <div class="col s12">
+                                                                                                                                                        <div class="input-field form-group">
+                                                                                                                                                            <input id="change{{file['FileId']}}" name="change" type="text" class="validate form-control" required="" aria-required="true">
+                                                                                                                                                            <label for="change{{file['FileId']}}">Change</label>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col s12">
+                                                                                                                                                        <div class="file-field input-field">
+                                                                                                                                                            <div class="btn pink darken-1">
+                                                                                                                                                                <span>File</span>
+                                                                                                                                                                <input name="file" type="file">
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="file-path-wrapper">
+                                                                                                                                                                <input class="file-path validate" type="text" placeholder="Upload one or more files" required="" aria-required="true">
+                                                                                                                                                            </div>
+                                                                                                                                                        </div>
+                                                                                                                                                    </div>
+                                                                                                                                                    <div class="col s12">
+                                                                                                                                                        <button value="{{file['Filepath']}}" id="btnUpload{{file['FileId']}}" class="pink darken-1 waves-effect waves-light right btn" type="submit" name="action">Upload</button>                                                                                                                                                                                                                                                                                                             
+                                                                                                                                                    </div>
+                                                                                                                                                </form>
+                                                                                                                                            </div>
+                                                                                                                                        </td>
                                                                                                                                     </tr>
                                                                                                                                     {% endif %}
                                                                                                                                 {% endfor %}
@@ -497,8 +522,9 @@
         });
 
         //var selectedFile = "";
-        function getSelected(selected, fileBtn){
-            document.getElementById(fileBtn).value = selected;
+        function getSelected(selected, btnDownload, btnUpload){
+            document.getElementById(btnDownload).value = selected;
+            document.getElementById(btnUpload).value = selected;
         }
     </script>
 

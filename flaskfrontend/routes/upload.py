@@ -33,3 +33,18 @@ def upload_confirm():
         upload = UploadDataset(files, metadata)
         upload.upload()
     return redirect(url_for('upload.upload'))
+
+@Upload.route('/upload/projects/file', methods=['POST'])
+def upload_projects_file():
+    if request.method == 'POST':
+        if 'session_id' not in session:
+            return redirect(url_for('auth.auth'))
+        info = {
+            'Change': request.form['change'],
+            'Filepath': request.form['action']
+        }
+        file = request.files
+        upload = UploadDataset(file, info)
+        response = upload.upload_change()
+        flash(response['Message'])
+    return redirect(url_for('projects.projects'))

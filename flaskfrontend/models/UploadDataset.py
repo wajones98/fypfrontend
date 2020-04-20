@@ -50,3 +50,44 @@ class UploadDataset():
             )
             response = r.json()
         return response
+    
+    def upload_change(self):
+        print(self.files['file'])
+        print(self.metadata)
+        
+        files = {}
+        
+        file = self.files['file']
+
+        file_name = secure_filename(file.filename)
+        full_path = os.path.join(self.LANDING, f'upload\\{file_name}')
+
+        file.save(full_path)
+        fin = open(full_path, 'rb')
+        files['file'] = fin
+
+        r = requests.post(
+            f'{self.BASE_URL}/upload/file/change/obj',
+            files=files,
+            headers={'SessionId': session['session_id']}
+        )
+
+        fin.close()
+        os.remove(full_path)
+        response = r.json()
+
+        body = {
+            'Change': self.metadata['Change'],
+            'PreviousFilepath': self.metadata['Filepath'],
+            'Filepath': response['Filepath']
+        }
+
+        r = requests.post(
+            f'{self.BASE_URL}/upload/file/change/metadata',
+            json=body,
+            headers={'SessionId': session['session_id']}
+        )
+
+        response = r.json()
+        return response
+

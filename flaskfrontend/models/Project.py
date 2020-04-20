@@ -6,7 +6,7 @@ from models.SearchItem import SearchItem
 BASE_URL = 'http://192.168.0.22:8080'
 
 class Project:
-    
+
     @staticmethod
     def make_public(json_body):
         r = requests.post(
